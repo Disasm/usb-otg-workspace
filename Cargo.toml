@@ -4,10 +4,12 @@ members = [
     "example-f429zi-board",
     "stm32f4xx-hal",
     "stm32f429-usbd-fs",
+    "stm32ral",
     "usb-device",
 ]
 
 [patch.crates-io]
 stm32f4xx-hal = { path = "stm32f4xx-hal" }
 stm32f429-usbd-fs = { path = "stm32f429-usbd-fs" }
+stm32ral = { path = "stm32ral" }
 usb-device = { path = "usb-device" }
