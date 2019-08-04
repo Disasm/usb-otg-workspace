@@ -1,6 +1,7 @@
 [workspace]
 
 members = [
+    "example-f429zi-board",
     "stm32f4xx-hal",
     "stm32f429-usbd-fs",
     "usb-device",
