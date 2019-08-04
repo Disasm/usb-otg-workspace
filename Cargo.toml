@@ -2,7 +2,9 @@
 
 members = [
     "stm32f429-usbd-fs",
+    "usb-device",
 ]
 
 [patch.crates-io]
 stm32f429-usbd-fs = { path = "stm32f429-usbd-fs" }
+usb-device = { path = "usb-device" }

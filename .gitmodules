@@ -1,3 +1,6 @@
 [submodule "stm32f429-usbd-fs"]
 	path = stm32f429-usbd-fs
 	url = https://github.com/Disasm/stm32f429-usbd-fs.git
+[submodule "usb-device"]
+	path = usb-device
+	url = https://github.com/mvirkkunen/usb-device.git
