@@ -4,3 +4,6 @@
 [submodule "usb-device"]
 	path = usb-device
 	url = https://github.com/mvirkkunen/usb-device.git
+[submodule "stm32f4xx-hal"]
+	path = stm32f4xx-hal
+	url = https://github.com/albru123/stm32f4xx-hal.git
