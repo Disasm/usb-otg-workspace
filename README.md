@@ -5,10 +5,8 @@
 ## Running the examples
 
 ```bash
-cd stm32f429-usbd-fs
+cd example-f429zi-board
 cargo run --release --example serial
 cargo run --release --example enumerate
 cargo run --release --example test_class
 ```
-
-Note that `serial_rtfm` and `serial_interrupt` examples are not ported at the moment.
