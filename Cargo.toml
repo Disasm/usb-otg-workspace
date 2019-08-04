@@ -1,6 +1,8 @@
 [workspace]
 
 members = [
+    "stm32f429-usbd-fs",
 ]
 
 [patch.crates-io]
+stm32f429-usbd-fs = { path = "stm32f429-usbd-fs" }
