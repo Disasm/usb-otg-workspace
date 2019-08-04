@@ -11,4 +11,4 @@ usbd-serial = "0.1.0"
 embedded-hal = "0.2.3"
 stm32f4xx-hal = { version = "0.5.0", features = ["stm32f429"] }
 usb-device = "0.2.2"
-stm32f429-usbd-fs = "0.1.0"
+stm32f429-usbd-fs = { version = "0.1.0", features = ["stm32f429xx"] }
