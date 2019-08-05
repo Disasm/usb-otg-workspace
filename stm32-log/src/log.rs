@@ -4,7 +4,7 @@ use cortex_m::interrupt::Mutex;
 use log::{Metadata, Record};
 use bbqueue::BBQueue;
 
-static mut BUFFER: [u8; 1024] = [0u8; 1024];
+static mut BUFFER: [u8; 4096] = [0u8; 4096];
 static LOGBUF: Mutex<RefCell<Buffer>> = Mutex::new(RefCell::new(Buffer::new()));
 
 pub struct Buffer(Option<BBQueue>);
