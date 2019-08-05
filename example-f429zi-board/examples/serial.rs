@@ -5,10 +5,11 @@
 extern crate panic_semihosting;
 
 use cortex_m_rt::entry;
-use stm32f429_usbd_fs::{UsbBus, sprintln};
+use stm32f429_usbd_fs::UsbBus;
 use stm32f4xx_hal::{prelude::*, stm32};
 use usb_device::prelude::*;
 use embedded_hal::digital::v2::OutputPin;
+use log::info;
 
 static mut EP_MEMORY: [u32; 1024] = [0; 1024];
 
@@ -27,9 +28,10 @@ fn main() -> ! {
         .freeze();
 
     let gpiod = dp.GPIOD.split();
-    stm32f429_usbd_fs::debug::configure(dp.USART3, gpiod.pd8, gpiod.pd9, 115_200.bps(), clocks);
+    stm32_log::configure(dp.USART3, gpiod.pd8, gpiod.pd9, 115_200.bps(), clocks);
+    log::set_max_level(log::LevelFilter::Trace);
 
-    sprintln!("==========================");
+    info!("starting");
 
     let gpiob = dp.GPIOB.split();
     let mut led = gpiob.pb7.into_push_pull_output();
@@ -53,6 +55,8 @@ fn main() -> ! {
         .build();
 
     loop {
+        log::logger().flush();
+
         if !usb_dev.poll(&mut [&mut serial]) {
             continue;
         }
