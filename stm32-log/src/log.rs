@@ -31,8 +31,8 @@ impl Buffer {
         let queue = self.queue();
 
         if let Ok(r) = queue.read() {
-            crate::write_bytes(&r);
-            queue.release(r.len(), r);
+            let n = crate::write_bytes(&r);
+            queue.release(n, r);
         }
     }
 }
@@ -53,8 +53,6 @@ impl core::fmt::Write for Buffer {
                 index += 1;
             }
             queue.commit(index, w);
-        } else {
-            panic!("can't write");
         }
         Ok(())
     }

@@ -19,10 +19,15 @@ static mut STDOUT: Option<SerialWrapper> = None;
 struct SerialWrapper(Tx<USART3>);
 
 impl SerialWrapper {
-    fn write_bytes(&mut self, data: &[u8]) {
+    fn write_bytes(&mut self, data: &[u8]) -> usize {
+        let mut cnt = 0;
         for byte in data {
-            block!(self.0.write(*byte)).ok();
+            if self.0.write(*byte).is_err() {
+                break;
+            }
+            cnt += 1;
         }
+        cnt
     }
 }
 
@@ -71,10 +76,12 @@ pub fn configure<X, Y>(
     crate::log::init();
 }
 
-pub fn write_bytes(data: &[u8]) {
+pub fn write_bytes(data: &[u8]) -> usize {
     interrupt::free(|_| unsafe {
         if let Some(stdout) = STDOUT.as_mut() {
-            stdout.write_bytes(data);
+            stdout.write_bytes(data)
+        } else {
+            0
         }
     })
 }
