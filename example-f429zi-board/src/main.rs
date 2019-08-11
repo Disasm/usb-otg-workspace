@@ -32,12 +32,28 @@ fn main() -> ! {
 
     info!("starting");
 
-    let gpioa = dp.GPIOA.split();
+    #[cfg(feature = "fs")]
+    let usb_peripherals = (dp.OTG_FS_GLOBAL, dp.OTG_FS_DEVICE, dp.OTG_FS_PWRCLK);
+    #[cfg(feature = "hs")]
+    let usb_peripherals = (dp.OTG_HS_GLOBAL, dp.OTG_HS_DEVICE, dp.OTG_HS_PWRCLK);
 
-    let usb_dm = gpioa.pa11.into_alternate_af10();
-    let usb_dp = gpioa.pa12.into_alternate_af10();
+    #[cfg(feature = "fs")]
+    let usb_pins = {
+        let gpioa = dp.GPIOA.split();
+        let usb_dm = gpioa.pa11.into_alternate_af10();
+        let usb_dp = gpioa.pa12.into_alternate_af10();
+        (usb_dm, usb_dp)
+    };
+    #[cfg(feature = "hs")]
+    let usb_pins = {
+        let gpiob = dp.GPIOB.split();
+        let usb_vbus = gpiob.pb13.into_alternate_af12();
+        let usb_dm = gpiob.pb14.into_alternate_af12();
+        let usb_dp = gpiob.pb15.into_alternate_af12();
+        (usb_vbus, usb_dm, usb_dp)
+    };
 
-    let usb_bus = UsbBus::new((dp.OTG_FS_GLOBAL, dp.OTG_FS_DEVICE, dp.OTG_FS_PWRCLK), (usb_dm, usb_dp), unsafe { &mut EP_MEMORY });
+    let usb_bus = UsbBus::new(usb_peripherals, usb_pins, unsafe { &mut EP_MEMORY });
 
     let mut usb_dev = UsbDeviceBuilder::new(&usb_bus, UsbVidPid(0x5824, 0x27dd))
         .manufacturer("Fake company")
