@@ -5,8 +5,7 @@ extern crate panic_semihosting;
 
 use cortex_m_rt::entry;
 use stm32f4xx_hal::{prelude::*, stm32};
-
-use stm32f429_usbd_fs::UsbBus;
+use stm32f4xx_hal::usb::{Peripheral, UsbBus};
 use usb_device::test_class::TestClass;
 
 static mut EP_MEMORY: [u32; 1024] = [0; 1024];
@@ -27,10 +26,15 @@ fn main() -> ! {
 
     let gpioa = dp.GPIOA.split();
 
-    let usb_dm = gpioa.pa11.into_alternate_af10();
-    let usb_dp = gpioa.pa12.into_alternate_af10();
+    let usb = Peripheral {
+        usb_global: dp.OTG_FS_GLOBAL,
+        usb_device: dp.OTG_FS_DEVICE,
+        usb_pwrclk: dp.OTG_FS_PWRCLK,
+        pin_dm: gpioa.pa11.into_alternate_af10(),
+        pin_dp: gpioa.pa12.into_alternate_af10(),
+    };
 
-    let usb_bus = UsbBus::new((dp.OTG_FS_GLOBAL, dp.OTG_FS_DEVICE, dp.OTG_FS_PWRCLK), (usb_dm, usb_dp), unsafe { &mut EP_MEMORY });
+    let usb_bus = UsbBus::new(usb, unsafe { &mut EP_MEMORY });
 
     let mut test = TestClass::new(&usb_bus);
 
