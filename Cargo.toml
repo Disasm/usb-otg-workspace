@@ -3,6 +3,7 @@
 members = [
     "example-f401-board",
     "example-f429zi-board",
+    "example-f446ze-board",
     "stm32-log",
     "stm32f4xx-hal",
     "synopsys-usb-otg",
