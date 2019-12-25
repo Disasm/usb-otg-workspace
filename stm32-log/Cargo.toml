@@ -14,3 +14,4 @@ bbqueue = "0.3.2"
 [features]
 target-selected = []
 nucleo-f429zi = ['stm32f4xx-hal/stm32f429', 'target-selected']
+nucleo-f446ze = ['stm32f4xx-hal/stm32f446', 'target-selected']
