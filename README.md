@@ -4,14 +4,18 @@
 
 ## Running the examples
 
+### STM32F429ZI ([NUCLEO-F429ZI](https://www.st.com/en/evaluation-tools/nucleo-f429zi.html) board)
 ```bash
+rustup target add thumbv7em-none-eabihf
 cd example-f429zi-board
 openocd -f openocd.cfg &
 cargo run --release --features "fs" --example serial
 cargo run --release --features "fs" --example test_class
 ```
 
+### STM32F401CC ([STM32F401 Development Board](https://www.aliexpress.com/item/4000069263843.html) from AliExpress)
 ```bash
+rustup target add thumbv7em-none-eabihf
 cd example-f401-board
 openocd -f openocd.cfg &
 cargo run --release --example serial
