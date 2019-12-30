@@ -1,6 +1,6 @@
 # `usb-otg-workspace`
 
-> Experimental [usb-device](https://github.com/mvirkkunen/usb-device) implementation for STM32F429 (OTG FS part)
+> A collection of examples for [`synopsys-usb-otg`](https://github.com/stm32-rs/synopsys-usb-otg).
 
 ## Running the examples
 
