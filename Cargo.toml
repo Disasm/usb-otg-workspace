@@ -2,6 +2,7 @@
 
 members = [
     "example-f401-board",
+    "example-f407-board",
     "example-f429zi-board",
     "example-f446ze-board",
     "example-longan-nano-board",
