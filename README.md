@@ -21,3 +21,12 @@ openocd -f openocd.cfg &
 cargo run --release --example serial
 cargo run --release --example test_class
 ```
+
+### STM32F407VG ([STM32F407G-DISC1](https://www.st.com/en/evaluation-tools/stm32f4discovery.html) board)
+```bash
+rustup target add thumbv7em-none-eabihf
+cd example-f407-board
+openocd -f openocd.cfg &
+cargo run --release --example serial
+cargo run --release --example test_class
+```
