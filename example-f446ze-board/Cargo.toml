@@ -17,10 +17,6 @@ fs = ['stm32f4xx-hal/usb_fs']
 hs = ['stm32f4xx-hal/usb_hs']
 
 [[example]]
-name = "enumerate"
-required-features = ["fs"]
-
-[[example]]
 name = "serial"
 required-features = ["fs"]
 
