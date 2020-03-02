@@ -1,0 +1,18 @@
+language: rust
+
+rust:
+  - nightly
+  - stable
+
+cache: cargo
+
+install:
+  - rustup target add thumbv7em-none-eabihf
+
+script:
+  - cd example-f401-board && cargo build --release --bins --examples
+  - cd example-f407-board && cargo build --release --bins --examples
+  - cd example-f429zi-board && cargo build --release --bins --examples --features fs
+  - cd example-f429zi-board && cargo build --release --bins --examples --features hs
+  - cd example-f446ze-board && cargo build --release --bins --examples --features fs
+  - cd example-f446ze-board && cargo build --release --bins --examples --features hs
