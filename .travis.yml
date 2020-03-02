@@ -8,6 +8,7 @@ cache: cargo
 
 install:
   - rustup target add thumbv7em-none-eabihf
+  - rustup target riscv32imac-unknown-none-elf
 
 script:
   - cd example-f401-board && cargo build --release --bins --examples
@@ -16,3 +17,4 @@ script:
   - cd example-f429zi-board && cargo build --release --bins --examples --features hs
   - cd example-f446ze-board && cargo build --release --bins --examples --features fs
   - cd example-f446ze-board && cargo build --release --bins --examples --features hs
+  - cd example-longan-nano-board && cargo build --release --bins --examples
