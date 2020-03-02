@@ -5,7 +5,10 @@ extern crate panic_semihosting;
 
 use cortex_m_rt::entry;
 use stm32f4xx_hal::{prelude::*, stm32};
-use stm32f4xx_hal::usb::{Peripheral, UsbBus};
+#[cfg(feature = "fs")]
+use stm32f4xx_hal::otg_fs::{USB, UsbBus};
+#[cfg(feature = "hs")]
+use stm32f4xx_hal::otg_hs::{USB, UsbBus};
 use usb_device::prelude::*;
 use log::info;
 
@@ -37,7 +40,7 @@ fn main() -> ! {
     let gpiob = dp.GPIOB.split();
 
     #[cfg(feature = "fs")]
-    let usb = Peripheral {
+    let usb = USB {
         usb_global: dp.OTG_FS_GLOBAL,
         usb_device: dp.OTG_FS_DEVICE,
         usb_pwrclk: dp.OTG_FS_PWRCLK,
@@ -45,7 +48,7 @@ fn main() -> ! {
         pin_dp: gpioa.pa12.into_alternate_af10(),
     };
     #[cfg(feature = "hs")]
-    let usb = Peripheral {
+    let usb = USB {
         usb_global: dp.OTG_HS_GLOBAL,
         usb_device: dp.OTG_HS_DEVICE,
         usb_pwrclk: dp.OTG_HS_PWRCLK,

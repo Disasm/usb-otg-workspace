@@ -5,7 +5,7 @@ extern crate panic_semihosting;
 
 use cortex_m_rt::entry;
 use stm32f4xx_hal::{prelude::*, stm32};
-use stm32f4xx_hal::usb::{Peripheral, UsbBus};
+use stm32f4xx_hal::otg_fs::{USB, UsbBus};
 use usb_device::prelude::*;
 
 static mut EP_MEMORY: [u32; 1024] = [0; 1024];
@@ -26,7 +26,7 @@ fn main() -> ! {
 
     let gpioa = dp.GPIOA.split();
 
-    let usb = Peripheral {
+    let usb = USB {
         usb_global: dp.OTG_FS_GLOBAL,
         usb_device: dp.OTG_FS_DEVICE,
         usb_pwrclk: dp.OTG_FS_PWRCLK,

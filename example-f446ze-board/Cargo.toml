@@ -9,7 +9,7 @@ panic-semihosting = "0.5.2"
 cortex-m-rt = "0.6.10"
 usbd-serial = "0.1.0"
 embedded-hal = "0.2.3"
-stm32f4xx-hal = { version = "0.5.0", features = ["stm32f446", "synopsys-usb-otg"] }
+stm32f4xx-hal = { version = "0.6.0", features = ["stm32f446"] }
 usb-device = "0.2.2"
 stm32-log = { version = "0.1.0", features = ["nucleo-f446ze"] }
 log = "0.4.8"
@@ -17,3 +17,15 @@ log = "0.4.8"
 [features]
 fs = ['stm32f4xx-hal/usb_fs']
 hs = ['stm32f4xx-hal/usb_hs']
+
+[[example]]
+name = "enumerate"
+required-features = ["fs"]
+
+[[example]]
+name = "serial"
+required-features = ["fs"]
+
+[[example]]
+name = "test_class"
+required-features = ["fs"]
