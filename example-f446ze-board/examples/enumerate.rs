@@ -7,7 +7,6 @@ use cortex_m_rt::entry;
 use stm32f4xx_hal::{prelude::*, stm32};
 use stm32f4xx_hal::otg_fs::{USB, UsbBus};
 use usb_device::prelude::*;
-use log::info;
 
 static mut EP_MEMORY: [u32; 1024] = [0; 1024];
 
@@ -24,12 +23,6 @@ fn main() -> ! {
         .pclk1(24.mhz())
         .require_pll48clk()
         .freeze();
-
-    let gpiod = dp.GPIOD.split();
-    stm32_log::configure(dp.USART3, gpiod.pd8, gpiod.pd9, 115_200.bps(), clocks);
-    log::set_max_level(log::LevelFilter::Trace);
-
-    info!("starting");
 
     let gpioa = dp.GPIOA.split();
 
@@ -51,8 +44,6 @@ fn main() -> ! {
         .build();
 
     loop {
-        log::logger().flush();
-
         if usb_dev.poll(&mut []) {
         }
     }
