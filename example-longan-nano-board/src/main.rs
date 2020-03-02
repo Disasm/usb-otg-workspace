@@ -27,7 +27,7 @@ unsafe impl UsbPeripheral for Peripheral {
     const FIFO_DEPTH_WORDS: usize = 320;
 
     fn enable() {
-        let rcu = unsafe { (&*pac::RCU::ptr()) };
+        let rcu = unsafe { &*pac::RCU::ptr() };
 
         riscv::interrupt::free(|_| {
             // Enable USB peripheral
@@ -43,17 +43,16 @@ unsafe impl UsbPeripheral for Peripheral {
 #[entry]
 fn main() -> ! {
     let dp = pac::Peripherals::take().unwrap();
-    let gpioa = dp.GPIOA.split();
 
     // Configure clocks
-    let rcu = dp.RCU.constrain();
-    let clocks = rcu.cctl
+    let mut rcu = dp.RCU.configure()
         .ext_hf_clock(8.mhz())
         .sysclk(96.mhz())
         .freeze();
 
-    assert!(clocks.usbclk_valid());
+    assert!(rcu.clocks.usbclk_valid());
 
+    let gpioa = dp.GPIOA.split(&mut rcu);
     let usb = Peripheral {
         pin_dm: gpioa.pa11,
         pin_dp: gpioa.pa12,

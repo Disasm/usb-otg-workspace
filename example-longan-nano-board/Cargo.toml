@@ -7,7 +7,7 @@ edition = "2018"
 [dependencies]
 riscv = "0.5.4"
 riscv-rt = "0.6.1"
-gd32vf103xx-hal = "0.0.3"
+gd32vf103xx-hal = "0.2.3"
 panic-halt = "0.2.0"
-usb-device = "0.2.3"
+usb-device = "0.2.5"
 synopsys-usb-otg = { version = "0.1.0", features = ["riscv", "fs"] }
