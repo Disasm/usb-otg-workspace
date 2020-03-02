@@ -18,7 +18,7 @@ fn main() -> ! {
 
     let rcc = dp.RCC.constrain();
 
-    let clocks = rcc
+    let _clocks = rcc
         .cfgr
         .use_hse(8.mhz())
         .sysclk(48.mhz())
@@ -28,7 +28,7 @@ fn main() -> ! {
 
     let gpiob = dp.GPIOB.split();
     let mut led = gpiob.pb7.into_push_pull_output();
-    led.set_low(); // Turn off
+    led.set_low().ok(); // Turn off
 
 
     let gpioa = dp.GPIOA.split();
@@ -61,7 +61,7 @@ fn main() -> ! {
 
         match serial.read(&mut buf) {
             Ok(count) if count > 0 => {
-                led.set_high(); // Turn on
+                led.set_high().ok(); // Turn on
 
                 // Echo back in upper case
                 for c in buf[0..count].iter_mut() {
@@ -83,6 +83,6 @@ fn main() -> ! {
             _ => {}
         }
 
-        led.set_low(); // Turn off
+        led.set_low().ok(); // Turn off
     }
 }

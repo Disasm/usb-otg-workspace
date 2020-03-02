@@ -16,7 +16,7 @@ fn main() -> ! {
 
     let rcc = dp.RCC.constrain();
 
-    let clocks = rcc
+    let _clocks = rcc
         .cfgr
         .use_hse(8.mhz())
         .sysclk(48.mhz())
