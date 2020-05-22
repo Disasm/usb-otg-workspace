@@ -19,7 +19,3 @@ hs = ['stm32f4xx-hal/usb_hs']
 [[example]]
 name = "serial"
 required-features = ["fs"]
-
-[[example]]
-name = "test_class"
-required-features = ["fs"]
