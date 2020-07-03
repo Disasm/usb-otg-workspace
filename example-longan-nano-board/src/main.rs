@@ -38,6 +38,10 @@ unsafe impl UsbPeripheral for Peripheral {
             rcu.ahbrst.modify(|_, w| w.usbfsrst().clear_bit());
         });
     }
+
+    fn ahb_frequency_hz(&self) -> u32 {
+        48_000_000
+    }
 }
 
 #[entry]
