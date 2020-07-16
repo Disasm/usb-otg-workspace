@@ -19,7 +19,7 @@ fn main() -> ! {
 
     let rcc = dp.RCC.constrain();
 
-    let _clocks = rcc
+    let clocks = rcc
         .cfgr
         .use_hse(8.mhz())
         .sysclk(48.mhz())
@@ -39,6 +39,7 @@ fn main() -> ! {
         usb_pwrclk: dp.OTG_FS_PWRCLK,
         pin_dm: gpioa.pa11.into_alternate_af10(),
         pin_dp: gpioa.pa12.into_alternate_af10(),
+        hclk: clocks.hclk(),
     };
     #[cfg(feature = "hs")]
     let usb = USB {
@@ -47,6 +48,7 @@ fn main() -> ! {
         usb_pwrclk: dp.OTG_HS_PWRCLK,
         pin_dm: gpiob.pb14.into_alternate_af12(),
         pin_dp: gpiob.pb15.into_alternate_af12(),
+        hclk: clocks.hclk(),
     };
 
     let usb_bus = UsbBus::new(usb, unsafe { &mut EP_MEMORY });

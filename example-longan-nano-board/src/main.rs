@@ -25,6 +25,7 @@ unsafe impl UsbPeripheral for Peripheral {
 
     const HIGH_SPEED: bool = false;
     const FIFO_DEPTH_WORDS: usize = 320;
+    const ENDPOINT_COUNT: usize = 4;
 
     fn enable() {
         let rcu = unsafe { &*pac::RCU::ptr() };
