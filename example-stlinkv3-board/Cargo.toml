@@ -17,4 +17,4 @@ usb-device = "0.2.5"
 
 [features]
 fs = ["stm32f7xx-hal/usb_fs"]
-hs = ["stm32f7xx-hal/usb_hs"]
+hs = ["stm32f7xx-hal/usb_hs", "usb-device/test-class-high-speed"]

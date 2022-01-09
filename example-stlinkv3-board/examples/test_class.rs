@@ -29,7 +29,7 @@ fn main() -> ! {
 
     let clocks = rcc.cfgr
         .hse(HSEClock::new(25.MHz(), HSEClockMode::Bypass))
-        .sysclk(72_200.kHz())
+        .sysclk(72.MHz())
         .freeze();
 
     #[cfg(feature = "fs")]
