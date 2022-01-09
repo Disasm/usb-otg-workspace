@@ -55,7 +55,7 @@ fn main() -> ! {
 
     let mut usb_dev = UsbDeviceBuilder::new(&usb_bus, UsbVidPid(0x16c0, 0x27dd))
         .manufacturer("Fake company")
-        .product("Serial port")
+        .product("Enumeration test")
         .serial_number("TEST")
         .device_class(0)
         .build();

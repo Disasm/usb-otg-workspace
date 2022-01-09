@@ -8,6 +8,7 @@ use cortex_m_rt::entry;
 use stm32f4xx_hal::{prelude::*, pac};
 use stm32f4xx_hal::otg_fs::{USB, UsbBus};
 use usb_device::prelude::*;
+use usbd_serial::{SerialPort, USB_CLASS_CDC};
 
 static mut EP_MEMORY: [u32; 1024] = [0; 1024];
 
@@ -43,13 +44,13 @@ fn main() -> ! {
 
     let usb_bus = UsbBus::new(usb, unsafe { &mut EP_MEMORY });
 
-    let mut serial = usbd_serial::SerialPort::new(&usb_bus);
+    let mut serial = SerialPort::new(&usb_bus);
 
     let mut usb_dev = UsbDeviceBuilder::new(&usb_bus, UsbVidPid(0x16c0, 0x27dd))
         .manufacturer("Fake company")
         .product("Serial port")
         .serial_number("TEST")
-        .device_class(usbd_serial::USB_CLASS_CDC)
+        .device_class(USB_CLASS_CDC)
         .build();
 
     loop {

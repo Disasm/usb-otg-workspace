@@ -13,6 +13,7 @@ use stm32f7xx_hal::otg_fs::{USB, UsbBus};
 #[cfg(feature = "hs")]
 use stm32f7xx_hal::otg_hs::{USB, UsbBus};
 use usb_device::prelude::*;
+use usbd_serial::{SerialPort, USB_CLASS_CDC};
 use example_stlinkv3_board::restore;
 
 static mut EP_MEMORY: [u32; 1024] = [0; 1024];
@@ -60,13 +61,14 @@ fn main() -> ! {
 
     let usb_bus = UsbBus::new(usb, unsafe { &mut EP_MEMORY });
 
-    let mut serial = usbd_serial::SerialPort::new(&usb_bus);
+    let mut serial = SerialPort::new(&usb_bus);
 
     let builder = UsbDeviceBuilder::new(&usb_bus, UsbVidPid(0x16c0, 0x27dd))
         .manufacturer("Fake company")
         .product("Serial port")
         .serial_number("TEST")
-        .device_class(usbd_serial::USB_CLASS_CDC);
+        .device_class(USB_CLASS_CDC);
+    #[cfg(feature = "hs")]
     let builder = builder.max_packet_size_0(64);
     let mut usb_dev = builder.build();
 
