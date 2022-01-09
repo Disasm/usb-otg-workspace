@@ -8,16 +8,17 @@ use gd32vf103xx_hal::prelude::*;
 use gd32vf103xx_hal::pac;
 
 use example_longan_nano_board::{USB, UsbBus};
-use usb_device::prelude::*;
+use usb_device::test_class::TestClass;
 
-static mut EP_MEMORY: [u32; 1024] = [0; 1024];
 
 #[entry]
 fn main() -> ! {
     let dp = pac::Peripherals::take().unwrap();
 
     // Configure clocks
-    let mut rcu = dp.RCU.configure()
+    let mut rcu = dp
+        .RCU
+        .configure()
         .ext_hf_clock(8.mhz())
         .sysclk(96.mhz())
         .freeze();
@@ -34,17 +35,15 @@ fn main() -> ! {
         hclk: rcu.clocks.hclk()
     };
 
+    static mut EP_MEMORY: [u32; 1024] = [0; 1024];
     let usb_bus = UsbBus::new(usb, unsafe { &mut EP_MEMORY });
 
-    let mut usb_dev = UsbDeviceBuilder::new(&usb_bus, UsbVidPid(0x16c0, 0x27dd))
-        .manufacturer("Fake company")
-        .product("Enumeration test")
-        .serial_number("TEST")
-        .device_class(0)
-        .build();
+    let mut test = TestClass::new(&usb_bus);
+    let mut usb_dev = test.make_device(&usb_bus);
 
     loop {
-        if usb_dev.poll(&mut []) {
+        if usb_dev.poll(&mut [&mut test]) {
+            test.poll();
         }
     }
 }
