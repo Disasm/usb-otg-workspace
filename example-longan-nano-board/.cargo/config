@@ -3,6 +3,7 @@ runner = 'riscv64-unknown-elf-gdb -x openocd.gdb'
 rustflags = [
   "-C", "link-arg=-Tmemory.x",
   "-C", "link-arg=-Tlink.x",
+  "-C", "link-arg=--threads=1",
 ]
 
 [build]

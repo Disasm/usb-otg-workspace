@@ -2,7 +2,7 @@
 runner = "arm-none-eabi-gdb -x openocd.gdb"
 rustflags = [
   "-C", "link-arg=-Tlink.x",
-  "-C", "link-arg=--no-threads",
+  "-C", "link-arg=--threads=1",
 ]
 
 [build]
