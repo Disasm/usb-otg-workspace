@@ -5,7 +5,7 @@ protocol = "Swd"
 enabled = true
 
 [default.general]
-chip = "STM32F723ZE"
+chip = "STM32F723IEKx"
 
 [default.rtt]
 enabled = true
