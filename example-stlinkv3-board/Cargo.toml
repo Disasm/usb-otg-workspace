@@ -6,17 +6,16 @@ edition = "2018"
 
 [dependencies]
 panic-halt = "0.2.0"
-cortex-m = "0.6.2"
-cortex-m-rt = "0.6.12"
-stm32f7xx-hal = { version = "0.2.0", features = ["stm32f723", "usb_fs"] }
-embedded-hal = "0.2.3"
+cortex-m = "0.7.4"
+cortex-m-rt = "0.7.1"
+stm32f7xx-hal = { version = "0.6.0", features = ["stm32f723"] }
 nb = "0.1.2"
 rtt-target = { version = "0.2.0", features = ["cortex-m"] }
 panic-rtt-target = { version = "0.1.0", features = ["cortex-m"] }
-synopsys-usb-otg = { version = "0.1.0", features = ["cortex-m", "fs"] }
+synopsys-usb-otg = { version = "0.1.0", features = ["cortex-m"] }
 usbd-serial = "0.1.0"
 usb-device = "0.2.5"
 
 [features]
-fs = []
-hs = []
+fs = ["stm32f7xx-hal/usb_fs", "synopsys-usb-otg/fs"]
+hs = ["stm32f7xx-hal/usb_hs", "synopsys-usb-otg/hs"]

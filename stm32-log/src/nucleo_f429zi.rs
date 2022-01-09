@@ -6,7 +6,7 @@ use cortex_m::interrupt;
 use stm32f4xx_hal::{
     serial::{Serial, Tx},
     time::Bps,
-    stm32::USART3,
+    pac::USART3,
     prelude::*
 };
 use stm32f4xx_hal::gpio::gpiod::{PD8, PD9};
@@ -62,9 +62,9 @@ pub fn configure<X, Y>(
         baudrate,
         ..Config::default()
     };
-    let tx = tx.into_alternate_af7();
-    let rx = rx.into_alternate_af7();
-    let serial = Serial::usart3(uart, (tx, rx), config, clocks).unwrap();
+    let tx = tx.into_alternate();
+    let rx = rx.into_alternate();
+    let serial = Serial::new(uart, (tx, rx), config, &clocks).unwrap();
     let (tx, _) = serial.split();
 
     interrupt::free(|_| {

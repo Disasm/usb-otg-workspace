@@ -2,10 +2,10 @@
 
 #![allow(unused)]
 
-use stm32f7xx_hal::device;
+use stm32f7xx_hal::pac;
 use rtt_target::rprintln;
 
-pub fn restore(cp: &cortex_m::Peripherals, dp: &device::Peripherals) {
+pub fn restore(cp: &cortex_m::Peripherals, dp: &pac::Peripherals) {
     for r in cp.NVIC.icer.iter() {
         unsafe { r.write(0xffffffff); }
     }
@@ -21,7 +21,7 @@ pub fn restore(cp: &cortex_m::Peripherals, dp: &device::Peripherals) {
 }
 
 fn setup_usbfs_clock() {
-    let rcc = unsafe { &*device::RCC::ptr() };
+    let rcc = unsafe { &*pac::RCC::ptr() };
 
     // Turn PLL off
     rcc.cr.modify(|_, w| w.pllsaion().off());
@@ -53,7 +53,7 @@ fn setup_usbfs_clock() {
 }
 
 fn setup_usbfs_clock_72_2() {
-    let rcc = unsafe { &*device::RCC::ptr() };
+    let rcc = unsafe { &*pac::RCC::ptr() };
 
     // let cfg = rcc.pllcfgr.read();
     // let pllm = cfg.pllm().bits() as u32;

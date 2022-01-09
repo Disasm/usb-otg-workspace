@@ -8,13 +8,13 @@ members = [
     "example-longan-nano-board",
     "example-stlinkv3-board",
     "stm32-log",
-    "stm32f4xx-hal",
-    "stm32f7xx-hal",
+    #"stm32f4xx-hal",
+    #"stm32f7xx-hal",
     "synopsys-usb-otg",
 ]
 
 [patch.crates-io]
 stm32-log = { path = "stm32-log" }
-stm32f4xx-hal = { path = "stm32f4xx-hal" }
-stm32f7xx-hal = { path = "stm32f7xx-hal" }
+#stm32f4xx-hal = { path = "stm32f4xx-hal" }
+#stm32f7xx-hal = { path = "stm32f7xx-hal" }
 synopsys-usb-otg = { path = "synopsys-usb-otg" }

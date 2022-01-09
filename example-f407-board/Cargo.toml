@@ -6,8 +6,7 @@ edition = "2018"
 
 [dependencies]
 panic-semihosting = "0.5.2"
-cortex-m-rt = "0.6.10"
+cortex-m-rt = "0.7.1"
 usbd-serial = "0.1.0"
-embedded-hal = "0.2.3"
-stm32f4xx-hal = { version = "0.9.0", features = ["stm32f407", "usb_fs"] }
+stm32f4xx-hal = { version = "0.11.1", features = ["stm32f407", "usb_fs"] }
 usb-device = "0.2.2"

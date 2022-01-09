@@ -5,7 +5,7 @@ use panic_rtt_target as _;
 
 use cortex_m_rt::entry;
 use stm32f7xx_hal::prelude::*;
-use stm32f7xx_hal::device;
+use stm32f7xx_hal::pac;
 use stm32f7xx_hal::rcc::{HSEClock, HSEClockMode};
 #[cfg(feature = "fs")]
 use stm32f7xx_hal::otg_fs::{USB, UsbBus};
@@ -21,15 +21,15 @@ fn main() -> ! {
     rtt_target::rtt_init_print!();
 
     let cp = cortex_m::Peripherals::take().unwrap_or_else(|| loop { continue; });
-    let dp = device::Peripherals::take().unwrap_or_else(|| loop { continue; });
+    let dp = pac::Peripherals::take().unwrap_or_else(|| loop { continue; });
 
     restore(&cp, &dp);
 
     let rcc = dp.RCC.constrain();
 
     let clocks = rcc.cfgr
-        .hse(HSEClock::new(25.mhz(), HSEClockMode::Bypass))
-        .sysclk(72_200.khz())
+        .hse(HSEClock::new(25.MHz(), HSEClockMode::Bypass))
+        .sysclk(72_200.kHz())
         .freeze();
 
     #[cfg(feature = "fs")]
@@ -38,23 +38,22 @@ fn main() -> ! {
     let gpiob = dp.GPIOB.split();
 
     #[cfg(feature = "fs")]
-    let usb = USB {
-        usb_global: dp.OTG_FS_GLOBAL,
-        usb_device: dp.OTG_FS_DEVICE,
-        usb_pwrclk: dp.OTG_FS_PWRCLK,
-        pin_dm: gpioa.pa11.into_alternate_af10(),
-        pin_dp: gpioa.pa12.into_alternate_af10(),
-        hclk: clocks.hclk(),
-    };
+    let usb = USB::new(
+        dp.OTG_FS_GLOBAL,
+        dp.OTG_FS_DEVICE,
+        dp.OTG_FS_PWRCLK,
+        (gpioa.pa11.into_alternate(), gpioa.pa12.into_alternate()),
+        clocks,
+    );
     #[cfg(feature = "hs")]
-    let usb = USB {
-        usb_global: dp.OTG_HS_GLOBAL,
-        usb_device: dp.OTG_HS_DEVICE,
-        usb_pwrclk: dp.OTG_HS_PWRCLK,
-        pin_dm: gpiob.pb14.into_alternate_af12(),
-        pin_dp: gpiob.pb15.into_alternate_af12(),
-        hclk: clocks.hclk(),
-    };
+    let usb = USB::new_with_internal_hs_phy(
+        dp.OTG_HS_GLOBAL,
+        dp.OTG_HS_DEVICE,
+        dp.OTG_HS_PWRCLK,
+        dp.USBPHYC,
+        (gpiob.pb14.into_alternate(), gpiob.pb15.into_alternate()),
+        clocks,
+    );
 
     let usb_bus = UsbBus::new(usb, unsafe { &mut EP_MEMORY });
 

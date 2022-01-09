@@ -5,16 +5,15 @@
 extern crate panic_semihosting;
 
 use cortex_m_rt::entry;
-use stm32f4xx_hal::{prelude::*, stm32};
+use stm32f4xx_hal::{prelude::*, pac};
 use stm32f4xx_hal::otg_fs::{USB, UsbBus};
 use usb_device::prelude::*;
-use embedded_hal::digital::v2::OutputPin;
 
 static mut EP_MEMORY: [u32; 1024] = [0; 1024];
 
 #[entry]
 fn main() -> ! {
-    let dp = stm32::Peripherals::take().unwrap();
+    let dp = pac::Peripherals::take().unwrap();
 
     let rcc = dp.RCC.constrain();
 
@@ -28,7 +27,7 @@ fn main() -> ! {
 
     let gpiob = dp.GPIOB.split();
     let mut led = gpiob.pb7.into_push_pull_output();
-    led.set_low().ok(); // Turn off
+    led.set_low(); // Turn off
 
 
     let gpioa = dp.GPIOA.split();
@@ -37,8 +36,8 @@ fn main() -> ! {
         usb_global: dp.OTG_FS_GLOBAL,
         usb_device: dp.OTG_FS_DEVICE,
         usb_pwrclk: dp.OTG_FS_PWRCLK,
-        pin_dm: gpioa.pa11.into_alternate_af10(),
-        pin_dp: gpioa.pa12.into_alternate_af10(),
+        pin_dm: gpioa.pa11.into_alternate(),
+        pin_dp: gpioa.pa12.into_alternate(),
         hclk: clocks.hclk(),
     };
 
@@ -62,7 +61,7 @@ fn main() -> ! {
 
         match serial.read(&mut buf) {
             Ok(count) if count > 0 => {
-                led.set_high().ok(); // Turn on
+                led.set_high(); // Turn on
 
                 // Echo back in upper case
                 for c in buf[0..count].iter_mut() {
@@ -84,6 +83,6 @@ fn main() -> ! {
             _ => {}
         }
 
-        led.set_low().ok(); // Turn off
+        led.set_low(); // Turn off
     }
 }
