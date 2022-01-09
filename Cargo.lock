@@ -290,7 +290,7 @@ dependencies = [
  "panic-halt",
  "riscv",
  "riscv-rt",
- "synopsys-usb-otg 0.2.1",
+ "synopsys-usb-otg",
  "usb-device",
 ]
 
@@ -305,7 +305,6 @@ dependencies = [
  "panic-rtt-target",
  "rtt-target 0.2.2",
  "stm32f7xx-hal",
- "synopsys-usb-otg 0.1.0",
  "usb-device",
  "usbd-serial",
 ]
@@ -746,7 +745,7 @@ dependencies = [
  "rand_core 0.6.3",
  "rtcc",
  "stm32f4",
- "synopsys-usb-otg 0.2.1",
+ "synopsys-usb-otg",
  "void",
 ]
 
@@ -781,18 +780,8 @@ dependencies = [
  "rand_core 0.6.3",
  "rtcc",
  "stm32f7",
- "synopsys-usb-otg 0.2.4",
+ "synopsys-usb-otg",
  "void",
-]
-
-[[package]]
-name = "stm32ral"
-version = "0.3.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8665561cb3422ddf54d257bf6cb3c5432ba0684f6937c4ad987bad16aa6ca496"
-dependencies = [
- "bare-metal 0.2.5",
- "cortex-m 0.6.7",
 ]
 
 [[package]]
@@ -819,33 +808,10 @@ dependencies = [
 
 [[package]]
 name = "synopsys-usb-otg"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6bcd2ca4e946cd2f33dfe2b0485f6b3c306721a035699f44f576d69e45b38db0"
-dependencies = [
- "cortex-m 0.6.7",
- "stm32ral",
- "usb-device",
- "vcell",
-]
-
-[[package]]
-name = "synopsys-usb-otg"
-version = "0.2.1"
+version = "0.2.4"
 dependencies = [
  "cortex-m 0.6.7",
  "riscv",
- "usb-device",
- "vcell",
-]
-
-[[package]]
-name = "synopsys-usb-otg"
-version = "0.2.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d1216cb0fe29f65bfffe03c364640202eed1291d85d2f62bbadbe670106786e5"
-dependencies = [
- "cortex-m 0.6.7",
  "usb-device",
  "vcell",
 ]

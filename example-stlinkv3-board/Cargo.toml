@@ -12,10 +12,9 @@ stm32f7xx-hal = { version = "0.6.0", features = ["stm32f723"] }
 nb = "0.1.2"
 rtt-target = { version = "0.2.0", features = ["cortex-m"] }
 panic-rtt-target = { version = "0.1.0", features = ["cortex-m"] }
-synopsys-usb-otg = { version = "0.1.0", features = ["cortex-m"] }
 usbd-serial = "0.1.0"
 usb-device = "0.2.5"
 
 [features]
-fs = ["stm32f7xx-hal/usb_fs", "synopsys-usb-otg/fs"]
-hs = ["stm32f7xx-hal/usb_hs", "synopsys-usb-otg/hs"]
+fs = ["stm32f7xx-hal/usb_fs"]
+hs = ["stm32f7xx-hal/usb_hs"]
