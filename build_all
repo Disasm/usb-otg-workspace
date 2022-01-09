@@ -10,6 +10,8 @@ cd $TRAVIS_BUILD_DIR/example-f429zi-board && cargo build --release --bins --exam
 cd $TRAVIS_BUILD_DIR/example-f429zi-board && cargo build --release --bins --examples --features hs
 cd $TRAVIS_BUILD_DIR/example-f446ze-board && cargo build --release --bins --examples --features fs
 cd $TRAVIS_BUILD_DIR/example-f446ze-board && cargo build --release --bins --examples --features hs
+cd $TRAVIS_BUILD_DIR/example-f723e-disco-board && cargo build --release --examples --features fs
+cd $TRAVIS_BUILD_DIR/example-f723e-disco-board && cargo build --release --examples --features hs
 cd $TRAVIS_BUILD_DIR/example-stlinkv3-board && cargo build --release --examples --features fs
 cd $TRAVIS_BUILD_DIR/example-stlinkv3-board && cargo build --release --examples --features hs
 cd $TRAVIS_BUILD_DIR/example-longan-nano-board && cargo build --release --bins --examples

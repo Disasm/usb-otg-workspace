@@ -282,6 +282,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "example-f723e-disco-board"
+version = "0.1.0"
+dependencies = [
+ "cortex-m 0.7.4",
+ "cortex-m-rt",
+ "nb 0.1.3",
+ "panic-halt",
+ "panic-rtt-target",
+ "rtt-target",
+ "stm32f7xx-hal",
+ "usb-device",
+ "usbd-serial",
+]
+
+[[package]]
 name = "example-longan-nano-board"
 version = "0.1.0"
 dependencies = [
