@@ -1,6 +1,6 @@
 set history save on
 set confirm off
-target extended-remote :3333
+target extended-remote 0.0.0.0:3333
 monitor arm semihosting enable
 monitor reset halt
 
