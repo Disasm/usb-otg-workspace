@@ -1,0 +1,20 @@
+[package]
+name = "example-f446re-board"
+version = "0.1.0"
+authors = ["Vadim Kaushan <admin@disasm.info>"]
+edition = "2018"
+
+[dependencies]
+panic-semihosting = "0.5.2"
+cortex-m-rt = "0.7.1"
+usbd-serial = "0.1.0"
+stm32f4xx-hal = { version = "0.11.1", features = ["stm32f446"] }
+usb-device = "0.2.2"
+
+[features]
+fs = ['stm32f4xx-hal/usb_fs']
+hs = ['stm32f4xx-hal/usb_hs']
+
+[[example]]
+name = "serial"
+required-features = ["fs"]

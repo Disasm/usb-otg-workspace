@@ -271,6 +271,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "example-f446re-board"
+version = "0.1.0"
+dependencies = [
+ "cortex-m-rt",
+ "panic-semihosting",
+ "stm32f4xx-hal",
+ "usb-device",
+ "usbd-serial",
+]
+
+[[package]]
 name = "example-f446ze-board"
 version = "0.1.0"
 dependencies = [
