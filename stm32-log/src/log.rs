@@ -1,8 +1,8 @@
+use bbqueue::BBQueue;
 use core::cell::RefCell;
 use core::fmt::Write;
 use cortex_m::interrupt::Mutex;
 use log::{Metadata, Record};
-use bbqueue::BBQueue;
 
 static mut BUFFER: [u8; 4096] = [0u8; 4096];
 static LOGBUF: Mutex<RefCell<Buffer>> = Mutex::new(RefCell::new(Buffer::new()));

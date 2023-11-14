@@ -4,13 +4,13 @@
 use panic_rtt_target as _;
 
 use cortex_m_rt::entry;
-use stm32f7xx_hal::prelude::*;
-use stm32f7xx_hal::pac;
-use stm32f7xx_hal::rcc::{HSEClock, HSEClockMode};
 #[cfg(feature = "fs")]
-use stm32f7xx_hal::otg_fs::{USB, UsbBus};
+use stm32f7xx_hal::otg_fs::{UsbBus, USB};
 #[cfg(feature = "hs")]
-use stm32f7xx_hal::otg_hs::{USB, UsbBus};
+use stm32f7xx_hal::otg_hs::{UsbBus, USB};
+use stm32f7xx_hal::pac;
+use stm32f7xx_hal::prelude::*;
+use stm32f7xx_hal::rcc::{HSEClock, HSEClockMode};
 use usb_device::test_class::TestClass;
 
 static mut EP_MEMORY: [u32; 1024] = [0; 1024];
@@ -23,7 +23,8 @@ fn main() -> ! {
 
     let rcc = dp.RCC.constrain();
 
-    let clocks = rcc.cfgr
+    let clocks = rcc
+        .cfgr
         .hse(HSEClock::new(25.MHz(), HSEClockMode::Bypass))
         .sysclk(72.MHz())
         .freeze();

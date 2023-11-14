@@ -1,13 +1,14 @@
 #![no_std]
-
 #![allow(unused)]
 
-use stm32f7xx_hal::pac;
 use rtt_target::rprintln;
+use stm32f7xx_hal::pac;
 
 pub fn restore(cp: &cortex_m::Peripherals, dp: &pac::Peripherals) {
     for r in cp.NVIC.icer.iter() {
-        unsafe { r.write(0xffffffff); }
+        unsafe {
+            r.write(0xffffffff);
+        }
     }
 
     let rcc = &dp.RCC;
@@ -31,7 +32,13 @@ fn setup_usbfs_clock() {
     let cfg = rcc.pllcfgr.read();
     let pllm = cfg.pllm().bits() as u32;
     let plln = cfg.plln().bits() as u32;
-    rprintln!("PLL settings: m={}, n={}, p={:#b}, q={}", pllm, plln, cfg.pllp().bits(), cfg.pllq().bits());
+    rprintln!(
+        "PLL settings: m={}, n={}, p={:#b}, q={}",
+        pllm,
+        plln,
+        cfg.pllp().bits(),
+        cfg.pllq().bits()
+    );
     rprintln!("VCO: {}", 25_000_000 * plln / pllm);
     //rprintln!("RCC pllm: {:#x}", rcc.pllcfgr.read().pllm().bits());
 
@@ -68,7 +75,13 @@ fn setup_usbfs_clock_72_2() {
     let cfg = rcc.pllcfgr.read();
     let pllm = cfg.pllm().bits() as u32;
     let plln = cfg.plln().bits() as u32;
-    rprintln!("PLL settings: m={}, n={}, p={:#b}, q={}", pllm, plln, cfg.pllp().bits(), cfg.pllq().bits());
+    rprintln!(
+        "PLL settings: m={}, n={}, p={:#b}, q={}",
+        pllm,
+        plln,
+        cfg.pllp().bits(),
+        cfg.pllq().bits()
+    );
 
     // Take 48MHz clock from the main PLL
     rcc.dckcfgr2.modify(|_, w| w.ck48msel().pll());

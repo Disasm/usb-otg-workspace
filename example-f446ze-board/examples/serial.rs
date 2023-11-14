@@ -5,8 +5,8 @@
 extern crate panic_semihosting;
 
 use cortex_m_rt::entry;
-use stm32f4xx_hal::{prelude::*, pac};
-use stm32f4xx_hal::otg_fs::{USB, UsbBus};
+use stm32f4xx_hal::otg_fs::{UsbBus, USB};
+use stm32f4xx_hal::{pac, prelude::*};
 use usb_device::prelude::*;
 use usbd_serial::{SerialPort, USB_CLASS_CDC};
 
@@ -29,7 +29,6 @@ fn main() -> ! {
     let gpiob = dp.GPIOB.split();
     let mut led = gpiob.pb7.into_push_pull_output();
     led.set_low(); // Turn off
-
 
     let gpioa = dp.GPIOA.split();
 
@@ -76,8 +75,8 @@ fn main() -> ! {
                     match serial.write(&buf[write_offset..count]) {
                         Ok(len) if len > 0 => {
                             write_offset += len;
-                        },
-                        _ => {},
+                        }
+                        _ => {}
                     }
                 }
             }

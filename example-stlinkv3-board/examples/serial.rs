@@ -5,16 +5,16 @@
 use panic_rtt_target as _;
 
 use cortex_m_rt::entry;
-use stm32f7xx_hal::prelude::*;
-use stm32f7xx_hal::pac;
-use stm32f7xx_hal::rcc::{HSEClock, HSEClockMode};
+use example_stlinkv3_board::restore;
 #[cfg(feature = "fs")]
-use stm32f7xx_hal::otg_fs::{USB, UsbBus};
+use stm32f7xx_hal::otg_fs::{UsbBus, USB};
 #[cfg(feature = "hs")]
-use stm32f7xx_hal::otg_hs::{USB, UsbBus};
+use stm32f7xx_hal::otg_hs::{UsbBus, USB};
+use stm32f7xx_hal::pac;
+use stm32f7xx_hal::prelude::*;
+use stm32f7xx_hal::rcc::{HSEClock, HSEClockMode};
 use usb_device::prelude::*;
 use usbd_serial::{SerialPort, USB_CLASS_CDC};
-use example_stlinkv3_board::restore;
 
 static mut EP_MEMORY: [u32; 1024] = [0; 1024];
 
@@ -22,14 +22,19 @@ static mut EP_MEMORY: [u32; 1024] = [0; 1024];
 fn main() -> ! {
     rtt_target::rtt_init_print!();
 
-    let cp = cortex_m::Peripherals::take().unwrap_or_else(|| loop { continue; });
-    let dp = pac::Peripherals::take().unwrap_or_else(|| loop { continue; });
+    let cp = cortex_m::Peripherals::take().unwrap_or_else(|| loop {
+        continue;
+    });
+    let dp = pac::Peripherals::take().unwrap_or_else(|| loop {
+        continue;
+    });
 
     restore(&cp, &dp);
 
     let rcc = dp.RCC.constrain();
 
-    let clocks = rcc.cfgr
+    let clocks = rcc
+        .cfgr
         .hse(HSEClock::new(25.MHz(), HSEClockMode::Bypass))
         .sysclk(72.MHz())
         .freeze();
@@ -95,8 +100,8 @@ fn main() -> ! {
                     match serial.write(&buf[write_offset..count]) {
                         Ok(len) if len > 0 => {
                             write_offset += len;
-                        },
-                        _ => {},
+                        }
+                        _ => {}
                     }
                 }
             }

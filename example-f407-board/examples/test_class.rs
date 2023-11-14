@@ -4,8 +4,8 @@
 extern crate panic_semihosting;
 
 use cortex_m_rt::entry;
-use stm32f4xx_hal::{prelude::*, pac};
-use stm32f4xx_hal::otg_fs::{USB, UsbBus};
+use stm32f4xx_hal::otg_fs::{UsbBus, USB};
+use stm32f4xx_hal::{pac, prelude::*};
 use usb_device::test_class::TestClass;
 
 static mut EP_MEMORY: [u32; 1024] = [0; 1024];

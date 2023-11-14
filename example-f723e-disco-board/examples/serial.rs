@@ -5,13 +5,13 @@
 use panic_rtt_target as _;
 
 use cortex_m_rt::entry;
-use stm32f7xx_hal::prelude::*;
-use stm32f7xx_hal::pac;
-use stm32f7xx_hal::rcc::{HSEClock, HSEClockMode};
 #[cfg(feature = "fs")]
-use stm32f7xx_hal::otg_fs::{USB, UsbBus};
+use stm32f7xx_hal::otg_fs::{UsbBus, USB};
 #[cfg(feature = "hs")]
-use stm32f7xx_hal::otg_hs::{USB, UsbBus};
+use stm32f7xx_hal::otg_hs::{UsbBus, USB};
+use stm32f7xx_hal::pac;
+use stm32f7xx_hal::prelude::*;
+use stm32f7xx_hal::rcc::{HSEClock, HSEClockMode};
 use usb_device::prelude::*;
 use usbd_serial::{SerialPort, USB_CLASS_CDC};
 
@@ -25,7 +25,8 @@ fn main() -> ! {
 
     let rcc = dp.RCC.constrain();
 
-    let clocks = rcc.cfgr
+    let clocks = rcc
+        .cfgr
         .hse(HSEClock::new(25.MHz(), HSEClockMode::Bypass))
         .sysclk(72.MHz())
         .freeze();
@@ -91,8 +92,8 @@ fn main() -> ! {
                     match serial.write(&buf[write_offset..count]) {
                         Ok(len) if len > 0 => {
                             write_offset += len;
-                        },
-                        _ => {},
+                        }
+                        _ => {}
                     }
                 }
             }

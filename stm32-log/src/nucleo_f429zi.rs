@@ -1,18 +1,17 @@
 //! Debug interface based on the UART hooked up to ST-LINK
 
 use core::fmt::{self, Write};
-use stm32f4xx_hal::nb::block;
 use cortex_m::interrupt;
-use stm32f4xx_hal::{
-    serial::{Serial, Tx},
-    time::Bps,
-    pac::USART3,
-    prelude::*
-};
 use stm32f4xx_hal::gpio::gpiod::{PD8, PD9};
+use stm32f4xx_hal::nb::block;
 use stm32f4xx_hal::rcc::Clocks;
 use stm32f4xx_hal::serial::config::Config;
-
+use stm32f4xx_hal::{
+    pac::USART3,
+    prelude::*,
+    serial::{Serial, Tx},
+    time::Bps,
+};
 
 static mut STDOUT: Option<SerialWrapper> = None;
 
@@ -52,12 +51,8 @@ impl Write for SerialWrapper {
     }
 }
 
-
 /// Configures stdout
-pub fn configure<X, Y>(
-    uart: USART3, tx: PD8<X>, rx: PD9<Y>,
-    baudrate: Bps, clocks: Clocks
-) {
+pub fn configure<X, Y>(uart: USART3, tx: PD8<X>, rx: PD9<Y>, baudrate: Bps, clocks: Clocks) {
     let config = Config {
         baudrate,
         ..Config::default()
@@ -67,10 +62,8 @@ pub fn configure<X, Y>(
     let serial = Serial::new(uart, (tx, rx), config, &clocks).unwrap();
     let (tx, _) = serial.split();
 
-    interrupt::free(|_| {
-        unsafe {
-            STDOUT.replace(SerialWrapper(tx));
-        }
+    interrupt::free(|_| unsafe {
+        STDOUT.replace(SerialWrapper(tx));
     });
 
     crate::log::init();

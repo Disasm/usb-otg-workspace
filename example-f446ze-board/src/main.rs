@@ -4,11 +4,11 @@
 extern crate panic_semihosting;
 
 use cortex_m_rt::entry;
-use stm32f4xx_hal::{prelude::*, pac};
 #[cfg(feature = "fs")]
-use stm32f4xx_hal::otg_fs::{USB, UsbBus};
+use stm32f4xx_hal::otg_fs::{UsbBus, USB};
 #[cfg(feature = "hs")]
-use stm32f4xx_hal::otg_hs::{USB, UsbBus};
+use stm32f4xx_hal::otg_hs::{UsbBus, USB};
+use stm32f4xx_hal::{pac, prelude::*};
 use usb_device::prelude::*;
 
 static mut EP_MEMORY: [u32; 1024] = [0; 1024];
@@ -61,7 +61,6 @@ fn main() -> ! {
         .build();
 
     loop {
-        if usb_dev.poll(&mut []) {
-        }
+        if usb_dev.poll(&mut []) {}
     }
 }
