@@ -13,7 +13,7 @@ cargo run --release --features "fs" --example serial
 cargo run --release --features "fs" --example test_class
 ```
 
-## STM32F446RE ([NUCLEO-F446RE](https://www.st.com/en/evaluation-tools/nucleo-f446re.html) board)
+### STM32F446RE ([NUCLEO-F446RE](https://www.st.com/en/evaluation-tools/nucleo-f446re.html) board)
 ```bash
 rustup target add thumbv7em-none-eabihf
 cd example-f446re-board
