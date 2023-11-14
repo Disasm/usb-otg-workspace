@@ -14,7 +14,3 @@ usb-device = "0.2.2"
 [features]
 fs = ['stm32f4xx-hal/usb_fs']
 hs = ['stm32f4xx-hal/usb_hs']
-
-[[example]]
-name = "serial"
-required-features = ["fs"]

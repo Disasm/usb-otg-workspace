@@ -5,7 +5,10 @@
 extern crate panic_semihosting;
 
 use cortex_m_rt::entry;
+#[cfg(feature = "fs")]
 use stm32f4xx_hal::otg_fs::{UsbBus, USB};
+#[cfg(feature = "hs")]
+use stm32f4xx_hal::otg_hs::{UsbBus, USB};
 use stm32f4xx_hal::{pac, prelude::*};
 use usb_device::prelude::*;
 use usbd_serial::{SerialPort, USB_CLASS_CDC};
@@ -26,18 +29,29 @@ fn main() -> ! {
         .require_pll48clk()
         .freeze();
 
+    #[cfg(feature = "fs")]
+    let gpioa = dp.GPIOA.split();
     let gpiob = dp.GPIOB.split();
+
     let mut led = gpiob.pb7.into_push_pull_output();
     led.set_low(); // Turn off
 
-    let gpioa = dp.GPIOA.split();
-
+    #[cfg(feature = "fs")]
     let usb = USB {
         usb_global: dp.OTG_FS_GLOBAL,
         usb_device: dp.OTG_FS_DEVICE,
         usb_pwrclk: dp.OTG_FS_PWRCLK,
         pin_dm: gpioa.pa11.into_alternate(),
         pin_dp: gpioa.pa12.into_alternate(),
+        hclk: clocks.hclk(),
+    };
+    #[cfg(feature = "hs")]
+    let usb = USB {
+        usb_global: dp.OTG_HS_GLOBAL,
+        usb_device: dp.OTG_HS_DEVICE,
+        usb_pwrclk: dp.OTG_HS_PWRCLK,
+        pin_dm: gpiob.pb14.into_alternate(),
+        pin_dp: gpiob.pb15.into_alternate(),
         hclk: clocks.hclk(),
     };
 
