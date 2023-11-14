@@ -39,3 +39,12 @@ openocd -f openocd.cfg &
 cargo run --release --example serial
 cargo run --release --example test_class
 ```
+
+### STM32F407IG ([XCore407I](https://www.waveshare.com/xcore407i.htm) board)
+```bash
+rustup target add thumbv7em-none-eabihf
+cd example-xcore407i-board
+openocd -f openocd.cfg &
+cargo run --release --example serial --features "fs"
+cargo run --release --example test_class --features "fs"
+```

@@ -335,6 +335,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "example-xcore407i-board"
+version = "0.1.0"
+dependencies = [
+ "cortex-m 0.7.4",
+ "cortex-m-rt",
+ "panic-rtt-target",
+ "rtt-target",
+ "stm32f4xx-hal",
+ "synopsys-usb-otg",
+ "usb-device",
+ "usbd-serial",
+]
+
+[[package]]
 name = "fugit"
 version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"

@@ -9,6 +9,7 @@ members = [
     "example-f723e-disco-board",
     "example-longan-nano-board",
     "example-stlinkv3-board",
+    "example-xcore407i-board",
     "stm32-log",
     "synopsys-usb-otg",
 ]
