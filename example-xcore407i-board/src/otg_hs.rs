@@ -8,14 +8,7 @@
 
 use stm32f4xx_hal::pac;
 
-use stm32f4xx_hal::gpio::{
-    gpioa::{PA3, PA5},
-    gpiob::{PB0, PB1, PB10, PB11, PB12, PB13, PB5},
-    gpioc::PC0,
-    gpioh::PH4,
-    gpioi::PI11,
-    Alternate, PushPull,
-};
+use stm32f4xx_hal::gpio::alt::otg_hs as alt;
 use stm32f4xx_hal::time::Hertz;
 
 pub use synopsys_usb_otg::UsbBus;
@@ -25,20 +18,18 @@ pub struct USB {
     pub usb_global: pac::OTG_HS_GLOBAL,
     pub usb_device: pac::OTG_HS_DEVICE,
     pub usb_pwrclk: pac::OTG_HS_PWRCLK,
-    pub phy_data0: PA3<Alternate<PushPull, 10>>,
-    pub phy_data1: PB0<Alternate<PushPull, 10>>,
-    pub phy_data2: PB1<Alternate<PushPull, 10>>,
-    pub phy_data3: PB10<Alternate<PushPull, 10>>,
-    pub phy_data4: PB11<Alternate<PushPull, 10>>,
-    pub phy_data5: PB12<Alternate<PushPull, 10>>,
-    pub phy_data6: PB13<Alternate<PushPull, 10>>,
-    pub phy_data7: PB5<Alternate<PushPull, 10>>,
-    pub phy_stp: PC0<Alternate<PushPull, 10>>,
-
-    pub phy_nxt: PH4<Alternate<PushPull, 10>>,
-    pub pin_dir: PI11<Alternate<PushPull, 10>>,
-
-    pub pin_clk: PA5<Alternate<PushPull, 10>>,
+    pub phy_data0: alt::UlpiD0,
+    pub phy_data1: alt::UlpiD1,
+    pub phy_data2: alt::UlpiD2,
+    pub phy_data3: alt::UlpiD3,
+    pub phy_data4: alt::UlpiD4,
+    pub phy_data5: alt::UlpiD5,
+    pub phy_data6: alt::UlpiD6,
+    pub phy_data7: alt::UlpiD7,
+    pub phy_stp: alt::UlpiStp,
+    pub phy_nxt: alt::UlpiNxt,
+    pub pin_dir: alt::UlpiDir,
+    pub pin_clk: alt::UlpiCk,
     pub hclk: Hertz,
 }
 
@@ -69,7 +60,7 @@ unsafe impl UsbPeripheral for USB {
     }
 
     fn ahb_frequency_hz(&self) -> u32 {
-        self.hclk.0
+        self.hclk.raw()
     }
 
     fn phy_type(&self) -> PhyType {

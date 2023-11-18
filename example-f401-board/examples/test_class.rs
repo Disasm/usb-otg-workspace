@@ -18,9 +18,9 @@ fn main() -> ! {
 
     let clocks = rcc
         .cfgr
-        .use_hse(25.mhz())
-        .sysclk(48.mhz())
-        .pclk1(24.mhz())
+        .use_hse(25.MHz())
+        .sysclk(48.MHz())
+        .pclk1(24.MHz())
         .require_pll48clk()
         .freeze();
 
@@ -30,8 +30,8 @@ fn main() -> ! {
         usb_global: dp.OTG_FS_GLOBAL,
         usb_device: dp.OTG_FS_DEVICE,
         usb_pwrclk: dp.OTG_FS_PWRCLK,
-        pin_dm: gpioa.pa11.into_alternate(),
-        pin_dp: gpioa.pa12.into_alternate(),
+        pin_dm: gpioa.pa11.into(),
+        pin_dp: gpioa.pa12.into(),
         hclk: clocks.hclk(),
     };
 

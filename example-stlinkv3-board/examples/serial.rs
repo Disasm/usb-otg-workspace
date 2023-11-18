@@ -13,6 +13,7 @@ use stm32f7xx_hal::otg_hs::{UsbBus, USB};
 use stm32f7xx_hal::pac;
 use stm32f7xx_hal::prelude::*;
 use stm32f7xx_hal::rcc::{HSEClock, HSEClockMode};
+use usb_device::device::StringDescriptors;
 use usb_device::prelude::*;
 use usbd_serial::{SerialPort, USB_CLASS_CDC};
 
@@ -69,12 +70,14 @@ fn main() -> ! {
     let mut serial = SerialPort::new(&usb_bus);
 
     let builder = UsbDeviceBuilder::new(&usb_bus, UsbVidPid(0x16c0, 0x27dd))
-        .manufacturer("Fake company")
-        .product("Serial port")
-        .serial_number("TEST")
+        .strings(&[StringDescriptors::default()
+            .manufacturer("Fake company")
+            .product("Serial port")
+            .serial_number("TEST")])
+        .unwrap()
         .device_class(USB_CLASS_CDC);
     #[cfg(feature = "hs")]
-    let builder = builder.max_packet_size_0(64);
+    let builder = builder.max_packet_size_0(64).unwrap();
     let mut usb_dev = builder.build();
 
     loop {

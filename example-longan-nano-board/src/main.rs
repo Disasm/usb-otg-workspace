@@ -3,11 +3,11 @@
 
 use panic_halt as _;
 
+use example_longan_nano_board::{UsbBus, USB};
 use gd32vf103xx_hal::pac;
 use gd32vf103xx_hal::prelude::*;
 use riscv_rt::entry;
-
-use example_longan_nano_board::{UsbBus, USB};
+use usb_device::device::StringDescriptors;
 use usb_device::prelude::*;
 
 static mut EP_MEMORY: [u32; 1024] = [0; 1024];
@@ -39,9 +39,11 @@ fn main() -> ! {
     let usb_bus = UsbBus::new(usb, unsafe { &mut EP_MEMORY });
 
     let mut usb_dev = UsbDeviceBuilder::new(&usb_bus, UsbVidPid(0x16c0, 0x27dd))
-        .manufacturer("Fake company")
-        .product("Enumeration test")
-        .serial_number("TEST")
+        .strings(&[StringDescriptors::default()
+            .manufacturer("Fake company")
+            .product("Enumeration test")
+            .serial_number("TEST")])
+        .unwrap()
         .device_class(0)
         .build();
 
