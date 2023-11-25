@@ -1,3 +1,4 @@
+//! CDC-ACM serial port example using polling in a busy loop.
 #![no_std]
 #![no_main]
 
@@ -7,12 +8,11 @@ use gd32vf103xx_hal::pac;
 use gd32vf103xx_hal::prelude::*;
 use riscv_rt::entry;
 
+use embedded_hal::digital::v2::OutputPin;
 use example_longan_nano_board::{UsbBus, USB};
 use usb_device::device::StringDescriptors;
 use usb_device::prelude::*;
 use usbd_serial::{SerialPort, USB_CLASS_CDC};
-
-use embedded_hal::digital::v2::OutputPin;
 
 #[entry]
 fn main() -> ! {

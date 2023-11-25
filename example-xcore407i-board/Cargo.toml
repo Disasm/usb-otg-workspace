@@ -12,7 +12,7 @@ cortex-m-rt = "0.7.5"
 usbd-serial = "0.2.0"
 stm32f4xx-hal = { version = "0.22.1", features = ["stm32f407"] }
 usb-device = "0.3.0"
-synopsys-usb-otg = { version = "0.4.0", features = ["cortex-m"] }
+synopsys-usb-otg = "0.5.0"
 
 [features]
 fs = ["stm32f4xx-hal/usb_fs", "synopsys-usb-otg/fs"]

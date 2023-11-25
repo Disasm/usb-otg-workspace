@@ -10,6 +10,12 @@ members = [
     "example-longan-nano-board",
     "example-stlinkv3-board",
     "example-xcore407i-board",
+    "stm32f4xx-hal",
+    "stm32f7xx-hal",
+    "synopsys-usb-otg",
 ]
 
 [patch.crates-io]
+synopsys-usb-otg = { path = "synopsys-usb-otg" }
+stm32f4xx-hal = { path = "stm32f4xx-hal" }
+stm32f7xx-hal = { path = "stm32f7xx-hal" }

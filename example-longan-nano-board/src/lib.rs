@@ -31,7 +31,7 @@ unsafe impl UsbPeripheral for USB {
     fn enable() {
         let rcu = unsafe { &*pac::RCU::ptr() };
 
-        riscv::interrupt::free(|_| {
+        riscv::interrupt::free(|| {
             // Enable USB peripheral
             rcu.ahben.modify(|_, w| w.usbfsen().set_bit());
 
