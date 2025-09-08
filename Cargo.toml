@@ -10,8 +10,6 @@ members = [
     "example-longan-nano-board",
     "example-stlinkv3-board",
     "example-xcore407i-board",
-    "stm32-log",
 ]
 
 [patch.crates-io]
-stm32-log = { path = "stm32-log" }
