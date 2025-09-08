@@ -1,7 +1,7 @@
 #![no_std]
 #![no_main]
 
-extern crate panic_semihosting;
+use panic_rtt_target as _;
 
 use cortex_m_rt::entry;
 #[cfg(feature = "fs")]
@@ -15,6 +15,8 @@ static mut EP_MEMORY: [u32; 1024] = [0; 1024];
 
 #[entry]
 fn main() -> ! {
+    rtt_target::rtt_init_print!();
+
     let dp = pac::Peripherals::take().unwrap();
 
     let rcc = dp.RCC.constrain();

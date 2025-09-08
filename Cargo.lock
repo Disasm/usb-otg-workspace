@@ -248,7 +248,8 @@ name = "example-f401-board"
 version = "0.1.0"
 dependencies = [
  "cortex-m-rt",
- "panic-semihosting",
+ "panic-rtt-target",
+ "rtt-target",
  "stm32f4xx-hal",
  "usb-device",
  "usbd-serial",
@@ -270,7 +271,8 @@ name = "example-f429zi-board"
 version = "0.1.0"
 dependencies = [
  "cortex-m-rt",
- "panic-semihosting",
+ "panic-rtt-target",
+ "rtt-target",
  "stm32f4xx-hal",
  "usb-device",
  "usbd-serial",
@@ -281,7 +283,8 @@ name = "example-f446re-board"
 version = "0.1.0"
 dependencies = [
  "cortex-m-rt",
- "panic-semihosting",
+ "panic-rtt-target",
+ "rtt-target",
  "stm32f4xx-hal",
  "usb-device",
  "usbd-serial",

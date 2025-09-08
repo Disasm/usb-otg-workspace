@@ -5,7 +5,8 @@ authors = ["Vadim Kaushan <admin@disasm.info>"]
 edition = "2018"
 
 [dependencies]
-panic-semihosting = "0.5.2"
+rtt-target = "0.6.1"
+panic-rtt-target = "0.2.0"
 cortex-m-rt = "0.7.5"
 usbd-serial = "0.2.0"
 stm32f4xx-hal = { version = "0.22.1", features = ["stm32f446"] }
