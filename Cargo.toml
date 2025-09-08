@@ -4,14 +4,12 @@ members = [
     "example-f401-board",
     "example-f407-board",
     "example-f429zi-board",
+    "example-f446re-board",
     "example-f446ze-board",
     "example-f723e-disco-board",
     "example-longan-nano-board",
     "example-stlinkv3-board",
-    "stm32-log",
-    "synopsys-usb-otg",
+    "example-xcore407i-board",
 ]
 
 [patch.crates-io]
-stm32-log = { path = "stm32-log" }
-synopsys-usb-otg = { path = "synopsys-usb-otg" }

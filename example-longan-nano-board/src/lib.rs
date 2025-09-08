@@ -1,7 +1,10 @@
 #![no_std]
 
+use gd32vf103xx_hal::gpio::{
+    gpioa::{PA11, PA12},
+    Floating, Input,
+};
 use gd32vf103xx_hal::pac;
-use gd32vf103xx_hal::gpio::{Input, Floating, gpioa::{PA11, PA12}};
 use gd32vf103xx_hal::time::Hertz;
 pub use synopsys_usb_otg::UsbBus;
 use synopsys_usb_otg::UsbPeripheral;

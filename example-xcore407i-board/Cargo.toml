@@ -1,0 +1,19 @@
+[package]
+name = "example-xcore407i-board"
+version = "0.1.0"
+authors = ["Vadim Kaushan <admin@disasm.info>"]
+edition = "2018"
+
+[dependencies]
+rtt-target = "0.6.1"
+panic-rtt-target = "0.2.0"
+cortex-m = "0.7.7"
+cortex-m-rt = "0.7.5"
+usbd-serial = "0.2.0"
+stm32f4xx-hal = { version = "0.22.1", features = ["stm32f407"] }
+usb-device = "0.3.0"
+synopsys-usb-otg = { version = "0.4.0", features = ["cortex-m"] }
+
+[features]
+fs = ["stm32f4xx-hal/usb_fs", "synopsys-usb-otg/fs"]
+hs = ["stm32f4xx-hal/usb_hs", "synopsys-usb-otg/hs", "usb-device/test-class-high-speed"]

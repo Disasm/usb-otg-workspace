@@ -1,0 +1,62 @@
+on:
+  push:
+    branches: [ staging, trying, master ]
+  pull_request:
+
+name: CI
+
+jobs:
+  ci-linux:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental || false }}
+    strategy:
+      matrix:
+        rust: [ 1.89.0, nightly ]
+        include:
+          # Nightly is only for reference and allowed to fail
+          - rust: nightly
+            experimental: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
+          targets: thumbv7em-none-eabihf,riscv32imac-unknown-none-elf
+
+      - name: Build examples (BlackPill F401)
+        run: cd example-f401-board && cargo build --release --bins --examples
+
+      - name: Build examples (NUCLEO-F429ZI FullSpeed)
+        run: cd example-f429zi-board && cargo build --release --bins --examples --features fs
+      - name: Build examples (NUCLEO-F429ZI HighSpeed)
+        run: cd example-f429zi-board && cargo build --release --bins --examples --features hs
+
+      - name: Build examples (NUCLEO-F446RE FullSpeed)
+        run: cd example-f446re-board && cargo build --release --bins --examples --features fs
+      - name: Build examples (NUCLEO-F446RE HighSpeed)
+        run: cd example-f446re-board && cargo build --release --bins --examples --features hs
+
+      - name: Build examples (NUCLEO-F446ZE FullSpeed)
+        run: cd example-f446ze-board && cargo build --release --bins --examples --features fs
+      - name: Build examples (NUCLEO-F446ZE HighSpeed)
+        run: cd example-f446ze-board && cargo build --release --bins --examples --features hs
+
+      - name: Build examples (32F723EDISCOVERY FullSpeed)
+        run: cd example-f723e-disco-board && cargo build --release --bins --examples --features fs
+      - name: Build examples (32F723EDISCOVERY HighSpeed)
+        run: cd example-f723e-disco-board && cargo build --release --bins --examples --features hs
+
+      - name: Build examples (LonganNano)
+        run: cd example-longan-nano-board && cargo build --release --bins --examples
+
+      - name: Build examples (STLINK-V3 FullSpeed)
+        run: cd example-stlinkv3-board && cargo build --release --bins --examples --features fs
+      - name: Build examples (STLINK-V3 HighSpeed)
+        run: cd example-stlinkv3-board && cargo build --release --bins --examples --features hs
+
+      - name: Build examples (XCore407I FullSpeed)
+        run: cd example-xcore407i-board && cargo build --release --bins --examples --features fs
+      - name: Build examples (XCore407I HighSpeed)
+        run: cd example-xcore407i-board && cargo build --release --bins --examples --features hs

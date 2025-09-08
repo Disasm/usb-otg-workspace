@@ -3,13 +3,12 @@
 
 use panic_halt as _;
 
-use riscv_rt::entry;
-use gd32vf103xx_hal::prelude::*;
 use gd32vf103xx_hal::pac;
+use gd32vf103xx_hal::prelude::*;
+use riscv_rt::entry;
 
-use example_longan_nano_board::{USB, UsbBus};
+use example_longan_nano_board::{UsbBus, USB};
 use usb_device::test_class::TestClass;
-
 
 #[entry]
 fn main() -> ! {
@@ -32,7 +31,7 @@ fn main() -> ! {
         usb_pwrclk: dp.USBFS_PWRCLK,
         pin_dm: gpioa.pa11,
         pin_dp: gpioa.pa12,
-        hclk: rcu.clocks.hclk()
+        hclk: rcu.clocks.hclk(),
     };
 
     static mut EP_MEMORY: [u32; 1024] = [0; 1024];

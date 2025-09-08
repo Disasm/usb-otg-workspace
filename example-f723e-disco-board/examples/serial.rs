@@ -5,13 +5,14 @@
 use panic_rtt_target as _;
 
 use cortex_m_rt::entry;
-use stm32f7xx_hal::prelude::*;
-use stm32f7xx_hal::pac;
-use stm32f7xx_hal::rcc::{HSEClock, HSEClockMode};
 #[cfg(feature = "fs")]
-use stm32f7xx_hal::otg_fs::{USB, UsbBus};
+use stm32f7xx_hal::otg_fs::{UsbBus, USB};
 #[cfg(feature = "hs")]
-use stm32f7xx_hal::otg_hs::{USB, UsbBus};
+use stm32f7xx_hal::otg_hs::{UsbBus, USB};
+use stm32f7xx_hal::pac;
+use stm32f7xx_hal::prelude::*;
+use stm32f7xx_hal::rcc::{HSEClock, HSEClockMode};
+use usb_device::device::StringDescriptors;
 use usb_device::prelude::*;
 use usbd_serial::{SerialPort, USB_CLASS_CDC};
 
@@ -25,7 +26,8 @@ fn main() -> ! {
 
     let rcc = dp.RCC.constrain();
 
-    let clocks = rcc.cfgr
+    let clocks = rcc
+        .cfgr
         .hse(HSEClock::new(25.MHz(), HSEClockMode::Bypass))
         .sysclk(72.MHz())
         .freeze();
@@ -43,7 +45,7 @@ fn main() -> ! {
         dp.OTG_FS_DEVICE,
         dp.OTG_FS_PWRCLK,
         (gpioa.pa11.into_alternate(), gpioa.pa12.into_alternate()),
-        clocks,
+        &clocks,
     );
     #[cfg(feature = "hs")]
     let usb = USB::new_with_internal_hs_phy(
@@ -52,7 +54,7 @@ fn main() -> ! {
         dp.OTG_HS_PWRCLK,
         dp.USBPHYC,
         (gpiob.pb14.into_alternate(), gpiob.pb15.into_alternate()),
-        clocks,
+        &clocks,
     );
 
     let usb_bus = UsbBus::new(usb, unsafe { &mut EP_MEMORY });
@@ -60,12 +62,14 @@ fn main() -> ! {
     let mut serial = SerialPort::new(&usb_bus);
 
     let builder = UsbDeviceBuilder::new(&usb_bus, UsbVidPid(0x16c0, 0x27dd))
-        .manufacturer("Fake company")
-        .product("Serial port")
-        .serial_number("TEST")
+        .strings(&[StringDescriptors::default()
+            .manufacturer("Fake company")
+            .product("Serial port")
+            .serial_number("TEST")])
+        .unwrap()
         .device_class(USB_CLASS_CDC);
     #[cfg(feature = "hs")]
-    let builder = builder.max_packet_size_0(64);
+    let builder = builder.max_packet_size_0(64).unwrap();
     let mut usb_dev = builder.build();
 
     loop {
@@ -91,8 +95,8 @@ fn main() -> ! {
                     match serial.write(&buf[write_offset..count]) {
                         Ok(len) if len > 0 => {
                             write_offset += len;
-                        },
-                        _ => {},
+                        }
+                        _ => {}
                     }
                 }
             }

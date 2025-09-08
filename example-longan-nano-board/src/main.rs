@@ -3,11 +3,11 @@
 
 use panic_halt as _;
 
-use riscv_rt::entry;
-use gd32vf103xx_hal::prelude::*;
+use example_longan_nano_board::{UsbBus, USB};
 use gd32vf103xx_hal::pac;
-
-use example_longan_nano_board::{USB, UsbBus};
+use gd32vf103xx_hal::prelude::*;
+use riscv_rt::entry;
+use usb_device::device::StringDescriptors;
 use usb_device::prelude::*;
 
 static mut EP_MEMORY: [u32; 1024] = [0; 1024];
@@ -17,7 +17,9 @@ fn main() -> ! {
     let dp = pac::Peripherals::take().unwrap();
 
     // Configure clocks
-    let mut rcu = dp.RCU.configure()
+    let mut rcu = dp
+        .RCU
+        .configure()
         .ext_hf_clock(8.mhz())
         .sysclk(96.mhz())
         .freeze();
@@ -31,20 +33,21 @@ fn main() -> ! {
         usb_pwrclk: dp.USBFS_PWRCLK,
         pin_dm: gpioa.pa11,
         pin_dp: gpioa.pa12,
-        hclk: rcu.clocks.hclk()
+        hclk: rcu.clocks.hclk(),
     };
 
     let usb_bus = UsbBus::new(usb, unsafe { &mut EP_MEMORY });
 
     let mut usb_dev = UsbDeviceBuilder::new(&usb_bus, UsbVidPid(0x16c0, 0x27dd))
-        .manufacturer("Fake company")
-        .product("Enumeration test")
-        .serial_number("TEST")
+        .strings(&[StringDescriptors::default()
+            .manufacturer("Fake company")
+            .product("Enumeration test")
+            .serial_number("TEST")])
+        .unwrap()
         .device_class(0)
         .build();
 
     loop {
-        if usb_dev.poll(&mut []) {
-        }
+        if usb_dev.poll(&mut []) {}
     }
 }

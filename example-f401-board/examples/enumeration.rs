@@ -4,8 +4,9 @@
 extern crate panic_semihosting;
 
 use cortex_m_rt::entry;
-use stm32f4xx_hal::{prelude::*, pac};
-use stm32f4xx_hal::otg_fs::{USB, UsbBus};
+use stm32f4xx_hal::otg_fs::{UsbBus, USB};
+use stm32f4xx_hal::{pac, prelude::*};
+use usb_device::device::StringDescriptors;
 use usb_device::prelude::*;
 
 static mut EP_MEMORY: [u32; 1024] = [0; 1024];
@@ -18,9 +19,9 @@ fn main() -> ! {
 
     let clocks = rcc
         .cfgr
-        .use_hse(25.mhz())
-        .sysclk(48.mhz())
-        .pclk1(24.mhz())
+        .use_hse(25.MHz())
+        .sysclk(48.MHz())
+        .pclk1(24.MHz())
         .require_pll48clk()
         .freeze();
 
@@ -30,22 +31,23 @@ fn main() -> ! {
         usb_global: dp.OTG_FS_GLOBAL,
         usb_device: dp.OTG_FS_DEVICE,
         usb_pwrclk: dp.OTG_FS_PWRCLK,
-        pin_dm: gpioa.pa11.into_alternate(),
-        pin_dp: gpioa.pa12.into_alternate(),
+        pin_dm: gpioa.pa11.into(),
+        pin_dp: gpioa.pa12.into(),
         hclk: clocks.hclk(),
     };
 
     let usb_bus = UsbBus::new(usb, unsafe { &mut EP_MEMORY });
 
     let mut usb_dev = UsbDeviceBuilder::new(&usb_bus, UsbVidPid(0x16c0, 0x27dd))
-        .manufacturer("Fake company")
-        .product("Enumeration test")
-        .serial_number("TEST")
+        .strings(&[StringDescriptors::default()
+            .manufacturer("Fake company")
+            .product("Enumeration test")
+            .serial_number("TEST")])
+        .unwrap()
         .device_class(0)
         .build();
 
     loop {
-        if usb_dev.poll(&mut []) {
-        }
+        if usb_dev.poll(&mut []) {}
     }
 }
