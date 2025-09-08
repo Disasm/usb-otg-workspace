@@ -48,14 +48,14 @@ unsafe impl UsbPeripheral for USB {
 
         cortex_m::interrupt::free(|_| {
             // Enable USB peripheral
-            rcc.ahb1enr.modify(|_, w| w.otghsen().set_bit());
+            rcc.ahb1enr().modify(|_, w| w.otghsen().set_bit());
 
             // Enable ULPI clock
-            rcc.ahb1enr.modify(|_, w| w.otghsulpien().set_bit());
+            rcc.ahb1enr().modify(|_, w| w.otghsulpien().set_bit());
 
             // Reset USB peripheral
-            rcc.ahb1rstr.modify(|_, w| w.otghsrst().set_bit());
-            rcc.ahb1rstr.modify(|_, w| w.otghsrst().clear_bit());
+            rcc.ahb1rstr().modify(|_, w| w.otghsrst().set_bit());
+            rcc.ahb1rstr().modify(|_, w| w.otghsrst().clear_bit());
         });
     }
 

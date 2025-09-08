@@ -53,7 +53,7 @@ fn main() -> ! {
         dp.OTG_FS_DEVICE,
         dp.OTG_FS_PWRCLK,
         (gpioa.pa11.into_alternate(), gpioa.pa12.into_alternate()),
-        clocks,
+        &clocks,
     );
     #[cfg(feature = "hs")]
     let usb = USB::new_with_internal_hs_phy(
@@ -62,7 +62,7 @@ fn main() -> ! {
         dp.OTG_HS_PWRCLK,
         dp.USBPHYC,
         (gpiob.pb14.into_alternate(), gpiob.pb15.into_alternate()),
-        clocks,
+        &clocks,
     );
 
     let usb_bus = UsbBus::new(usb, unsafe { &mut EP_MEMORY });

@@ -11,11 +11,7 @@ members = [
     "example-stlinkv3-board",
     "example-xcore407i-board",
     "stm32-log",
-    "stm32f7xx-hal",
-    "synopsys-usb-otg",
 ]
 
 [patch.crates-io]
 stm32-log = { path = "stm32-log" }
-synopsys-usb-otg = { path = "synopsys-usb-otg" }
-stm32f7xx-hal = { path = "stm32f7xx-hal" }
