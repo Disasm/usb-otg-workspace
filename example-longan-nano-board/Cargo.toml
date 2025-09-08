@@ -11,5 +11,5 @@ embedded-hal = "0.2.7"
 gd32vf103xx-hal = "0.5.0"
 panic-halt = "0.2.0"
 usb-device = "0.3.0"
-usbd-serial = "0.1.1"
+usbd-serial = "0.2.0"
 synopsys-usb-otg = { version = "0.4.0", features = ["riscv", "fs"] }

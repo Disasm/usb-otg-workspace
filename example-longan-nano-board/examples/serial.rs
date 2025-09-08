@@ -8,6 +8,7 @@ use gd32vf103xx_hal::prelude::*;
 use riscv_rt::entry;
 
 use example_longan_nano_board::{UsbBus, USB};
+use usb_device::device::StringDescriptors;
 use usb_device::prelude::*;
 use usbd_serial::{SerialPort, USB_CLASS_CDC};
 
@@ -46,9 +47,11 @@ fn main() -> ! {
 
     let mut serial = SerialPort::new(&usb_bus);
     let mut usb_dev = UsbDeviceBuilder::new(&usb_bus, UsbVidPid(0x16c0, 0x27dd))
-        .manufacturer("Fake company")
-        .product("Serial port")
-        .serial_number("TEST")
+        .strings(&[StringDescriptors::default()
+            .manufacturer("Fake company")
+            .product("Serial port")
+            .serial_number("TEST")])
+        .unwrap()
         .device_class(USB_CLASS_CDC)
         .build();
 
