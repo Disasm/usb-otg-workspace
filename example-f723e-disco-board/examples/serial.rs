@@ -11,7 +11,7 @@ use stm32f7xx_hal::otg_fs::{UsbBus, USB};
 use stm32f7xx_hal::otg_hs::{UsbBus, USB};
 use stm32f7xx_hal::pac;
 use stm32f7xx_hal::prelude::*;
-use stm32f7xx_hal::rcc::{HSEClock, HSEClockMode};
+use stm32f7xx_hal::rcc::{HSEClock, HSEClockMode, PLL48CLK};
 use usb_device::device::StringDescriptors;
 use usb_device::prelude::*;
 use usbd_serial::{SerialPort, USB_CLASS_CDC};
@@ -29,6 +29,8 @@ fn main() -> ! {
     let clocks = rcc
         .cfgr
         .hse(HSEClock::new(25.MHz(), HSEClockMode::Bypass))
+        .use_pll()
+        .use_pll48clk(PLL48CLK::Pllq)
         .sysclk(72.MHz())
         .freeze();
 
